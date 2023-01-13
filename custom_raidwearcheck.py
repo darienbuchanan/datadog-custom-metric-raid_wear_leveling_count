@@ -6,7 +6,6 @@ from datetime import timedelta
 
 # Path to the file
 path = r"/etc/datadog-agent/checks.d/raidwear.txt"
-
 # file modification timestamp of a file
 m_time = os.path.getmtime(path)
 # convert timestamp into DateTime object
