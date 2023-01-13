@@ -1,15 +1,15 @@
 # datadog-custom-metric-raid_wear_leveling_count
-custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host.
+Summary: custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host.
 
-Summary:
+**Description**:
 This custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host. The command to run manually is for raid disk 2 is: smartctl -a -d sat+megaraid,2 /dev/sdb | grep Wear_Leveling_Count | awk '{print $4}'
 ***For more information please see 'Custom Metric: raid wear_leveling_count' in confluence: https://scratchfoundation.atlassian.net/wiki/spaces/IBE/pages/edit-v2/258539533
 
-How does custom check custom_raidwearcheck work:
+**How does custom check custom_raidwearcheck work**:
 In summary, the cron job executes check_raid.py and generates/modifies the raidwear.txt file which is then read by the custom_raidwearcheck.py. The custom_raidwearcheck.py script first checks the last_modified_date of the raidwear.txt file to ensure it is less than the current time minus one hour. If the raidwear.txt file is current, loop through and send wear_level_metric for each disk where value != ''. 
 *note: a file was used because the ‘check_raid.py' subprocess command did not work when in 'custom_raidwear’, datadog customer service spent a week and did not find out why this is…
 
-How to add custom Custom Metric: raid wear_leveling_count to host:
+**How to add custom Custom Metric: raid wear_leveling_count to host**:
 1. Connect to Markley      
 2. ssh into bastion server: ssh -i /Users/dbuchanan/.ssh/id_ed25519 darien@cat.scratch.mit.edu 
 3. ssh into target mysqlxx server
