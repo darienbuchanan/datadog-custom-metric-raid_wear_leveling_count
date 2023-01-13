@@ -3,7 +3,8 @@ Summary: custom check will send the raid wear_leveling_count to datadog for each
 
 **Description**:
 This custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host. The command to run manually is for raid disk 2 is: smartctl -a -d sat+megaraid,2 /dev/sdb | grep Wear_Leveling_Count | awk '{print $4}'
-***For more information please see 'Custom Metric: raid wear_leveling_count' in confluence: https://scratchfoundation.atlassian.net/wiki/spaces/IBE/pages/edit-v2/258539533
+
+**For more information please see 'Custom Metric: raid wear_leveling_count' in confluence**: https://scratchfoundation.atlassian.net/wiki/spaces/IBE/pages/edit-v2/258539533
 
 **How does custom check custom_raidwearcheck work**:
 In summary, the cron job executes check_raid.py and generates/modifies the raidwear.txt file which is then read by the custom_raidwearcheck.py. The custom_raidwearcheck.py script first checks the last_modified_date of the raidwear.txt file to ensure it is less than the current time minus one hour. If the raidwear.txt file is current, loop through and send wear_level_metric for each disk where value != ''. 
@@ -24,8 +25,8 @@ In summary, the cron job executes check_raid.py and generates/modifies the raidw
 *0 * * * * /usr/bin/python3 /etc/datadog-agent/checks.d/check_raid.py > /etc/datadog-agent/checks.d/raidwear.txt
 
 ***Muy Importante: cron job required for populating input file***
-*note: this will run every hour (test file creation with * * * * * (updates file every minute which is useful for testing)
-*note: for trouble shooting use the following to see any errors if any ‘grep check_raid /var/log/syslog’
+note: this will run every hour (test file creation with * * * * * (updates file every minute which is useful for testing)
+note: for trouble shooting use the following to see any errors if any ‘grep check_raid /var/log/syslog’
 
 11. create datadog check: vim custom_raidwearcheck.py
 12. restart agent: sudo systemctl restart datadog-agent
