@@ -1,6 +1,11 @@
 # datadog-custom-metric-raid_wear_leveling_count
 Summary: custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host.
 
+**Requirements**:
+1. Access to mysql00-mysql06 as root
+2. Python3 (on mysql hosts)
+3. smartctl (on mysql hosts)
+
 **Description**:
 This custom check will send the raid wear_leveling_count to datadog for each disk(0-5) on each target host. The command to run manually is for raid disk 2 is: smartctl -a -d sat+megaraid,2 /dev/sdb | grep Wear_Leveling_Count | awk '{print $4}'
 
